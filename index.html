@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flow for Good</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="header">
+    <div>POINTS: <span id="points">0</span> ⭐ x<span id="bonus">0</span></div>
+    <div>Flow for Good</div>
+    <div>
+      RESET <button id="resetBtn" title="Reset"><img src="img/reset.png" alt="Reset" style="height:18px;vertical-align:middle;"></button>
+    </div>
+  </div>
+
+  <div class="instruction-text">
+    <b>Create a path for the water to get to the bucket!</b>
+  </div>
+
+  <div class="game-area">
+    <div class="icon-row">
+      <span class="pipe-icon">⛏️</span>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="icon-row">
+      <span class="bucket-icon">🪣</span>
+    </div>
+  </div>
+
+  <button class="button" id="startFlowBtn">Start Flow</button>
+
+  <div class="overlay" id="instruction">
+    <p>
+      Click or drag across the tiles to dig a path from the tool to the bucket.<br>
+      - Avoid pollution tiles!<br>
+      - Collect bonus droplets for extra points.<br>
+      - Use the reset button to clear your path.<br>
+      - Click "Start Flow" to check your path.
+    </p>
+    <button class="button" id="hideInstructionBtn">Got it!</button>
+  </div>
+
+  <div class="feedback" id="success">
+    <h2> Congratulations! 👏 </h2>
+    <p>You delivered clean water!</p>
+    <p>+<span id="successPoints">10</span> points</p>
+    <p>Every minute, someone begins walking for water.</p>
+    <button class="button" id="nextLevelBtn">Next Round</button>
+    <button class="button" id="playAgainBtn">Play Again</button>
+  </div>
+
+  <div class="feedback" id="roundComplete" style="display:none;">
+    <h2> Round Complete! 🥳 </h2>
+    <p>You finished this round!</p>
+    <button class="button" id="nextRoundBtn">Next Round</button>
+  </div>
+  <div class="feedback" id="finished">
+    <h2> ✨ All Rounds Complete! ✨ </h2>
+    <p>Great job! You finished all 5 rounds.</p>
+    <button class="button" id="playAgainAllBtn">Play Again</button>
+    <button class="button" id="stopBtn">Stop</button>
+  </div>
+  <div class="feedback" id="goodbye" style="display:none;">
+    <h2> Goodbye! 🫡 </h2>
+    <p>Thanks for playing Flow for Good!</p>
+  </div>
+
+  <div class="footer" style="position:fixed; left:0; right:0; bottom:0;">
+    FLOW FOR GOOD
+    <span style="margin: 0 8px;">🤝</span>
+    charity: water
+    <img src="img/cw.png" alt="charity: water logo" style="height:22px; margin-left:8px; vertical-align:middle;">
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

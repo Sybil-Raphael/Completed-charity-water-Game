@@ -14,15 +14,39 @@ let currentGridTypes = [];
 let currentRound = 1; // Track the current round (start at 1)
 const maxRounds = 5; // Total number of rounds
 
+// Difficulty system variables
+let currentDifficulty = 'normal'; // Default difficulty
+let difficultySettings = {
+  easy: {
+    rockChance: 0.04,    // Very few rocks - easier to win
+    dirtyChance: 0.02,   // Very few pollution tiles
+    bonusChance: 0.08,   // More bonus droplets for extra points
+    penalty: 1,          // Lower penalty for hitting obstacles
+    pointsReward: 12     // Higher base reward
+  },
+  normal: {
+    rockChance: 0.08,    // Reduced rocks - more winnable
+    dirtyChance: 0.04,   // Reduced pollution tiles
+    bonusChance: 0.06,   // More bonus droplets
+    penalty: 2,          // Standard penalty
+    pointsReward: 10     // Standard reward
+  },
+  hard: {
+    rockChance: 0.12,    // Reduced from 0.20 - still challenging but fair
+    dirtyChance: 0.06,   // Reduced from 0.12 - still tough but beatable
+    bonusChance: 0.04,   // Standard bonus droplets
+    penalty: 3,          // Higher penalty
+    pointsReward: 8      // Lower base reward
+  }
+};
+
 // Build the grid for the current round
 function buildGrid(fromReset = false) {
   gridEl.innerHTML = '';
   if (!fromReset) {
     currentGridTypes = [];
     // Use the same obstacle/bonus frequency for all rounds
-    let rockChance = 0.14;
-    let dirtyChance = 0.08;
-    let bonusChance = 0.04;
+    let { rockChance, dirtyChance, bonusChance } = difficultySettings[currentDifficulty];
     for (let i = 0; i < 100; i++) {
       let type = 'dirt';
       let rand = Math.random();
@@ -77,14 +101,14 @@ function digTile(tile) {
     bonus++;
     bonusEl.textContent = bonus;
   } else if (tile.classList.contains('rock') || tile.classList.contains('dirty')) {
-    points = Math.max(0, points - 2);
+    points = Math.max(0, points - difficultySettings[currentDifficulty].penalty);
     pointsEl.textContent = points;
     showMinusTwoOverlay();
     resetGridToCurrentLayout();
   }
 }
 
-// Show a -2 overlay when player hits an obstacle
+// Show penalty overlay when player hits an obstacle
 function showMinusTwoOverlay() {
   const overlay = document.createElement('div');
   overlay.style.position = 'fixed';
@@ -98,11 +122,19 @@ function showMinusTwoOverlay() {
   overlay.style.padding = '20px 40px';
   overlay.style.borderRadius = '12px';
   overlay.style.zIndex = '9999';
-  overlay.innerText = '-2';
+  overlay.innerText = `-${difficultySettings[currentDifficulty].penalty}`;
   document.body.appendChild(overlay);
   setTimeout(() => {
     document.body.removeChild(overlay);
   }, 1000);
+}
+
+// Reset the grid for the current round
+function resetGame() {
+  bonus = 0;
+  bonusEl.textContent = bonus;
+  buildGrid(true);
+  document.getElementById('success').style.display = 'none';
 }
 
 // Reset only the path (not the grid layout)
@@ -135,9 +167,9 @@ function startFlow() {
     }
   }
   if (reachedBucket) {
-    points += 10 + bonus;
+    points += difficultySettings[currentDifficulty].pointsReward + bonus;
     pointsEl.textContent = points;
-    document.getElementById('successPoints').textContent = 10 + bonus;
+    document.getElementById('successPoints').textContent = difficultySettings[currentDifficulty].pointsReward + bonus;
     // If not last round, show round complete overlay, else show finished overlay
     if (currentRound < maxRounds) {
       document.getElementById('roundComplete').style.display = 'flex';
@@ -175,18 +207,38 @@ function showConfetti() {
   }
 }
 
-// Reset the grid for the current round
-function resetGame() {
-  bonus = 0;
-  bonusEl.textContent = bonus;
-  buildGrid(true);
-  document.getElementById('success').style.display = 'none';
-}
-
 // Hide the instruction overlay
 function hideInstruction() {
   document.getElementById('instruction').style.display = 'none';
+  // Show difficulty selection after hiding instructions
+  document.getElementById('difficultySelect').style.display = 'flex';
 }
+
+// Handle difficulty selection
+function selectDifficulty(difficulty) {
+  currentDifficulty = difficulty;
+  console.log(`Selected difficulty: ${difficulty}`);
+  // Update the difficulty display in the header
+  const difficultyDisplay = document.getElementById('difficultyDisplay');
+  difficultyDisplay.textContent = `(${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)})`;
+  // Hide difficulty selection overlay
+  document.getElementById('difficultySelect').style.display = 'none';
+  // Rebuild grid with new difficulty settings
+  buildGrid(false);
+}
+
+// Add event listeners for difficulty buttons
+document.getElementById('easyBtn').onclick = function() {
+  selectDifficulty('easy');
+};
+
+document.getElementById('normalBtn').onclick = function() {
+  selectDifficulty('normal');
+};
+
+document.getElementById('hardBtn').onclick = function() {
+  selectDifficulty('hard');
+};
 
 document.getElementById('instruction').style.display = 'flex';
 buildGrid();
@@ -222,8 +274,9 @@ document.getElementById('playAgainAllBtn').onclick = function() {
   pointsEl.textContent = points;
   bonus = 0;
   bonusEl.textContent = bonus;
-  buildGrid(false);
+  // Hide finished overlay and show difficulty selection again
   document.getElementById('finished').style.display = 'none';
+  document.getElementById('difficultySelect').style.display = 'flex';
 };
 document.getElementById('stopBtn').onclick = function() {
   // Show goodbye overlay

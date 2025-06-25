@@ -7,71 +7,115 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="header">
-    <div>POINTS: <span id="points">0</span> ⭐ x<span id="bonus">0</span></div>
-    <div>Flow for Good</div>
-    <div>
-      RESET <button id="resetBtn" title="Reset"><img src="img/reset.png" alt="Reset" style="height:18px;vertical-align:middle;"></button>
+  <div class="main-content">
+    <div class="header">
+      <div>POINTS: <span id="points">0</span> ⭐ x<span id="bonus">0</span></div>
+      <div>Flow for Good <span id="difficultyDisplay" style="font-size:0.8em;color:#e0f7fa;">(Normal)</span></div>
+      <div>
+        RESET <button id="resetBtn" title="Reset"><img src="img/reset.png" alt="Reset" style="height:18px;vertical-align:middle;"></button>
+      </div>
+    </div>
+
+    <div class="instruction-text">
+      <b>Create a path for the water to get to the bucket!</b>
+    </div>
+
+    <div class="game-area">
+      <div class="icon-row">
+        <span class="pipe-icon">⛏️</span>
+      </div>
+      <div class="grid" id="grid"></div>
+      <div class="icon-row">
+        <span class="bucket-icon">🪣</span>
+      </div>
+    </div>
+
+    <div class="centered-button-group">
+      <button class="difficulty-btn" id="startFlowBtn">Start Flow</button>
+    </div>
+
+    <div class="overlay" id="instruction">
+      <p>
+        Click or drag across the tiles to dig a path from the tool to the bucket.<br>
+        - Avoid pollution tiles!<br>
+        - Collect bonus droplets for extra points.<br>
+        - Use the reset button to clear your path.<br>
+        - Click "Start Flow" to check your path.
+      </p>
+      <div class="centered-button-group">
+        <button class="difficulty-btn" id="hideInstructionBtn">Got it!</button>
+      </div>
+    </div>
+
+    <div class="overlay" id="difficultySelect">
+      <h2>Choose Your Difficulty</h2>
+      <div class="difficulty-options">
+        <button class="difficulty-btn" id="easyBtn">
+          <strong>Easy</strong><br>
+          Fewer obstacles<br>
+          -1 point penalty
+        </button>
+        <button class="difficulty-btn" id="normalBtn">
+          <strong>Normal</strong><br>
+          Standard obstacles<br>
+          -2 point penalty
+        </button>
+        <button class="difficulty-btn" id="hardBtn">
+          <strong>Hard</strong><br>
+          More obstacles<br>
+          -3 point penalty
+        </button>
+      </div>
+    </div>
+
+    <div class="feedback" id="success">
+      <h2> Congratulations! 👏 </h2>
+      <p>You delivered clean water!</p>
+      <p>+<span id="successPoints">10</span> points</p>
+      <p>Every minute, someone begins walking for water.</p>
+      <div class="centered-button-group">
+        <button class="difficulty-btn" id="nextLevelBtn">Next Round</button>
+        <button class="difficulty-btn" id="playAgainBtn">Play Again</button>
+      </div>
+    </div>
+
+    <div class="feedback" id="roundComplete" style="display:none;">
+      <h2> Round Complete! 🥳 </h2>
+      <p>You finished this round!</p>
+      <div class="centered-button-group">
+        <button class="difficulty-btn" id="nextRoundBtn">Next Round</button>
+      </div>
+    </div>
+    
+    <div class="feedback" id="finished">
+      <h2> ✨ All Rounds Complete! ✨ </h2>
+      <p>Great job! You finished all 5 rounds.</p>
+      <div class="finished-options">
+        <button class="difficulty-btn" id="playAgainAllBtn">Play Again</button>
+        <button class="difficulty-btn" id="stopBtn">Stop</button>
+      </div>
+    </div>  
+
+    <div class="feedback" id="goodbye" style="display:none;">
+      <h2> Goodbye! 🫡 </h2>
+      <p>Thanks for playing Flow for Good!</p>
     </div>
   </div>
 
-  <div class="instruction-text">
-    <b>Create a path for the water to get to the bucket!</b>
-  </div>
-
-  <div class="game-area">
-    <div class="icon-row">
-      <span class="pipe-icon">⛏️</span>
+  <div class="footer">
+    <div class="footer-content">
+      <span>FLOW FOR GOOD</span>
+      <span style="margin: 0 8px;">🤝</span>
+      <a href="https://www.charitywater.org" target="_blank" class="footer-link">
+        charity: water
+        <img src="img/cw.png" alt="charity: water logo" style="height:22px; margin-left:8px; vertical-align:middle;">
+      </a>
     </div>
-    <div class="grid" id="grid"></div>
-    <div class="icon-row">
-      <span class="bucket-icon">🪣</span>
+    <div class="footer-links">
+      <a href="https://www.charitywater.org/donate" target="_blank" class="donate-link">💧 Donate Now</a>
+      <span class="footer-separator">|</span>
+      <a href="https://www.charitywater.org/about" target="_blank" class="footer-link">Learn More</a>
     </div>
-  </div>
-
-  <button class="button" id="startFlowBtn">Start Flow</button>
-
-  <div class="overlay" id="instruction">
-    <p>
-      Click or drag across the tiles to dig a path from the tool to the bucket.<br>
-      - Avoid pollution tiles!<br>
-      - Collect bonus droplets for extra points.<br>
-      - Use the reset button to clear your path.<br>
-      - Click "Start Flow" to check your path.
-    </p>
-    <button class="button" id="hideInstructionBtn">Got it!</button>
-  </div>
-
-  <div class="feedback" id="success">
-    <h2> Congratulations! 👏 </h2>
-    <p>You delivered clean water!</p>
-    <p>+<span id="successPoints">10</span> points</p>
-    <p>Every minute, someone begins walking for water.</p>
-    <button class="button" id="nextLevelBtn">Next Round</button>
-    <button class="button" id="playAgainBtn">Play Again</button>
-  </div>
-
-  <div class="feedback" id="roundComplete" style="display:none;">
-    <h2> Round Complete! 🥳 </h2>
-    <p>You finished this round!</p>
-    <button class="button" id="nextRoundBtn">Next Round</button>
-  </div>
-  <div class="feedback" id="finished">
-    <h2> ✨ All Rounds Complete! ✨ </h2>
-    <p>Great job! You finished all 5 rounds.</p>
-    <button class="button" id="playAgainAllBtn">Play Again</button>
-    <button class="button" id="stopBtn">Stop</button>
-  </div>
-  <div class="feedback" id="goodbye" style="display:none;">
-    <h2> Goodbye! 🫡 </h2>
-    <p>Thanks for playing Flow for Good!</p>
-  </div>
-
-  <div class="footer" style="position:fixed; left:0; right:0; bottom:0;">
-    FLOW FOR GOOD
-    <span style="margin: 0 8px;">🤝</span>
-    charity: water
-    <img src="img/cw.png" alt="charity: water logo" style="height:22px; margin-left:8px; vertical-align:middle;">
   </div>
 
   <script src="script.js"></script>

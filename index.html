@@ -7,6 +7,12 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- Audio elements for game sounds -->
+  <audio id="victorySound" preload="auto">
+    <source src="audio/victory.mp3" type="audio/mpeg">
+    <source src="audio/victory.wav" type="audio/wav">
+  </audio>
+  
   <div class="main-content">
     <div class="header">
       <div>POINTS: <span id="points">0</span> ⭐ x<span id="bonus">0</span></div>
@@ -52,18 +58,12 @@
       <div class="difficulty-options">
         <button class="difficulty-btn" id="easyBtn">
           <strong>Easy</strong><br>
-          Fewer obstacles<br>
-          -1 point penalty
         </button>
         <button class="difficulty-btn" id="normalBtn">
           <strong>Normal</strong><br>
-          Standard obstacles<br>
-          -2 point penalty
         </button>
         <button class="difficulty-btn" id="hardBtn">
           <strong>Hard</strong><br>
-          More obstacles<br>
-          -3 point penalty
         </button>
       </div>
     </div>
@@ -81,7 +81,6 @@
 
     <div class="feedback" id="roundComplete" style="display:none;">
       <h2> Round Complete! 🥳 </h2>
-      <p>You finished this round!</p>
       <div class="centered-button-group">
         <button class="difficulty-btn" id="nextRoundBtn">Next Round</button>
       </div>
@@ -89,7 +88,7 @@
     
     <div class="feedback" id="finished">
       <h2> ✨ All Rounds Complete! ✨ </h2>
-      <p>Great job! You finished all 5 rounds.</p>
+      <p>Great job! You finished all 3 rounds.</p>
       <div class="finished-options">
         <button class="difficulty-btn" id="playAgainAllBtn">Play Again</button>
         <button class="difficulty-btn" id="stopBtn">Stop</button>
